@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IOC Search</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://kit.fontawesome.com/5fd9c08505.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <form action="/search/" method="get" class="search-box">
+        <input class="search-txt" type="text" name="q" placeholder="Type to search ioc">
+        <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+    {% if status == "Success" %}
+    {% if query %}
+        <p>Son arama: {{ query }}</p>
+    {% else %}
+        <p>Arama yapilmamis.</p>
+    {% endif %}
+{% endif %}
+</body>
+</html>

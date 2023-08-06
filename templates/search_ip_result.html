@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <!-- Diğer stil ve meta etiketlerini burada ekleyebilirsiniz -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: white; /* Beyaz arka plan */
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        p {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dd0000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if detected_type == "ip" %}
+        <table>
+            <tr>
+                <th>IOC</th>
+                <td>{{ ioc.ioc }}</td>
+            </tr>
+            <tr>
+                <th>IOC Type</th>
+                <td>{{ ioc.ioc_type }}</td>
+            </tr>
+            <tr>
+                <th>Malicious</th>
+                <td>{{ ioc.malicious }}</td>
+            </tr>
+            <tr>
+                <th>Related Tags</th>
+                <td>{{ ioc.related_tags }}</td>
+            </tr>
+            <tr>
+                <th>Blacklist</th>
+                <td>{{ ioc.blacklist }}</td>
+            </tr>
+            <tr>
+                <th>Abuseipdb</th>
+                <td>{{ ioc.abuseipdb }}</td>
+            </tr>
+            <tr>
+                <th>Greynoise</th>
+                <td>{{ ioc.greynoise }}</td>
+            </tr>
+            <tr>
+                <th>Whois</th>
+                <td>{{ ioc.whois }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ ioc.country }}</td>
+            </tr>
+            <tr>
+                <th>Geometric Location</th>
+                <td>{{ ioc.geometric_location }}</td>
+            </tr>
+            <tr>
+                <th>ISP</th>
+                <td>{{ ioc.isp }}</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>{{ ioc.created_at }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p class="error-message">No IOC data available for the specified query.</p>
+    {% endif %}
+</body>
+</html>

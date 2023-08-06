@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <!-- Diğer stil ve meta etiketlerini burada ekleyebilirsiniz -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: white; /* Beyaz arka plan */
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        p {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dd0000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if detected_type == "file_hash" %}
+        <table>
+            <tr>
+                <th>IOC</th>
+                <td>{{ ioc.ioc }}</td>
+            </tr>
+            <tr>
+                <th>IOC Type</th>
+                <td>{{ ioc.ioc_type }}</td>
+            </tr>
+            <tr>
+                <th>Hash Algorithm</th>
+                <td>{{ ioc.hash_algorithm }}</td>
+            </tr>
+            <tr>
+                <th>Malicious</th>
+                <td>{{ ioc.malicious }}</td>
+            </tr>
+            <tr>
+                <th>Related Tags</th>
+                <td>{{ ioc.related_tags }}</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>{{ ioc.created_at }}</td>
+            </tr>
+            <tr>
+                <th>File Name</th>
+                <td>{{ ioc.file_name }}</td>
+            </tr>
+            <tr>
+                <th>File Size</th>
+                <td>{{ ioc.file_size }}</td>
+            </tr>
+            <tr>
+                <th>File Type</th>
+                <td>{{ ioc.file_type }}</td>
+            </tr>
+            <tr>
+                <th>Threat Label</th>
+                <td>{{ ioc.threat_label }}</td>
+            </tr>
+            <tr>
+                <th>Magic</th>
+                <td>{{ ioc.magic }}</td>
+            </tr>
+            <tr>
+                <th>TR ID</th>
+                <td>{{ ioc.tr_ID }}</td>
+            </tr>
+            <tr>
+                <th>TLSH</th>
+                <td>{{ ioc.tlsh }}</td>
+            </tr>
+            <tr>
+                <th>VHASH</th>
+                <td>{{ ioc.vhash }}</td>
+            </tr>
+            <tr>
+                <th>Pulse Info</th>
+                <td>{{ ioc.pulse_info }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p class="error-message">No IOC data available for the specified query.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "IOC"
+version = "0.1.0"
+description = "ioc enrichment"
+authors = ["mert <mert@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+psycopg2-binary = "^2.9.1"
+aiohttp = "3.8.4"
+dynaconf = "3.2.0"
+fastapi = "0.100.0"
+uvicorn = "0.22.0"
+sqlalchemy = "1.4.29"
+jinja2 = "3.1.2"
+httpx = "0.24.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <!-- Diğer stil ve meta etiketlerini burada ekleyebilirsiniz -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: white; /* Beyaz arka plan */
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            border: 1px solid #ccc; /* Tablo kenarlığı */
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        p {
+            color: #555;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dd0000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if detected_type == "url" %}
+        <table>
+            <tr>
+                <th>IOC</th>
+                <td>{{ ioc.ioc }}</td>
+            </tr>
+            <tr>
+                <th>IOC Type</th>
+                <td>{{ ioc.ioc_type }}</td>
+            </tr>
+            <tr>
+                <th>Suspicious</th>
+                <td>{{ ioc.suspicious }}</td>
+            </tr>
+            <tr>
+                <th>Unsafe</th>
+                <td>{{ ioc.unsafe }}</td>
+            </tr>
+            <tr>
+                <th>Risk Score</th>
+                <td>{{ ioc.risk_score }}</td>
+            </tr>
+            <tr>
+                <th>Malware</th>
+                <td>{{ ioc.malware }}</td>
+            </tr>
+            <tr>
+                <th>Spamming</th>
+                <td>{{ ioc.spamming }}</td>
+            </tr>
+            <tr>
+                <th>Phishing</th>
+                <td>{{ ioc.phishing }}</td>
+            </tr>
+            <tr>
+                <th>Adult</th>
+                <td>{{ ioc.adult }}</td>
+            </tr>
+            <tr>
+                <th>IP Address</th>
+                <td>{{ ioc.ip_address }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ ioc.country }}</td>
+            </tr>
+            <tr>
+                <th>Servers</th>
+                <td>{{ ioc.servers }}</td>
+            </tr>
+            <tr>
+                <th>Contacted URLs</th>
+                <td>{{ ioc.contacted_urls }}</td>
+            </tr>
+            <tr>
+                <th>Related Tags</th>
+                <td>{{ ioc.related_tags }}</td>
+            </tr>
+            <tr>
+                <th>Pulse Info</th>
+                <td>{{ ioc.pulse_info }}</td>
+            </tr>
+            <tr>
+                <th>Whois</th>
+                <td>{{ ioc.whois }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p class="error-message">No IOC data available for the specified query.</p>
+    {% endif %}
+</body>
+</html>
