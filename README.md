@@ -41,11 +41,11 @@ This request will analyze the provided IoC and return the results.
 
 ## Development Process
 During development, you can follow these steps:
-  1-Go to the project folder and start developing.
-  2-Add new analysis methods to the relevant files in the scan folder.
-  3-Add data you want to save to the database to the appropriate model files in the database folder.
-  4-Use the asyncio and async/await structure to manage analysis processes asynchronously.
-  5-Record any output using logging instead of print.
+  - Go to the project folder and start developing.
+  - Add new analysis methods to the relevant files in the scan folder.
+  - Add data you want to save to the database to the appropriate model files in the database folder.
+  - Use the asyncio and async/await structure to manage analysis processes asynchronously.
+  - Record any output using logging instead of print.
 
 ## Conclusion
 
