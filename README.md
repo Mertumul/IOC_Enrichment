@@ -20,16 +20,16 @@ Hello everyone! In this project, we are working on IoC (Indicator of Compromise)
 
 ## How to Use
 
-1. Open a terminal in the project's root directory.
-2. Install the required dependencies first:
+- Open a terminal in the project's root directory.
+- Install the required dependencies first:
 
    ```bash
    poetry install
-3.Start the database:
+- Start the database:
   docker-compose up -d
-4.Run the FastAPI server:
+- Run the FastAPI server:
   poetry run uvicorn main:app --host 0.0.0.0 --port 8000
-5.Access http://localhost:8000 in your browser or API testing tools.
+- Access http://localhost:8000 in your browser or API testing tools.
 
 ## Example Usage
 
