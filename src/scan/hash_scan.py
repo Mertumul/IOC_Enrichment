@@ -1,13 +1,13 @@
 import json
-from modules.virustotal import fetch_virustotal_data
-from modules.alienvault import fetch_alien_vault_data
-from database.models import HASH
 import logging
+from database.models import HASH
+from modules.alienvault import fetch_alien_vault_data
+from modules.virustotal import fetch_virustotal_data
 
 logging.basicConfig(level=logging.INFO)
 
 
-async def parse_virustotal_data(data: json) -> tuple:
+async def parse_virustotal_data_hash(data: dict) -> tuple:
     """
     Parses VirusTotal data to extract relevant information about a hash.
 
@@ -18,20 +18,22 @@ async def parse_virustotal_data(data: json) -> tuple:
         tuple: (is_malicious, file_type, tlsh, vhash, suggested_threat_label, file_size, magic, trid, names).
     """
 
-    last_analysis_stats = data["data"]["attributes"].get("last_analysis_stats", {})
+    attributes = data.get("data", {}).get("attributes", {})
+    
+    last_analysis_stats = attributes.get("last_analysis_stats", {})
     is_malicious = last_analysis_stats.get("malicious", 0) > 0
-    file_type = data["data"]["attributes"]["type_description"]
-    tlsh = data["data"]["attributes"]["tlsh"]
-    vhash = data["data"]["attributes"]["vhash"]
+    file_type = attributes.get("type_description")
+    tlsh = attributes.get("tlsh")
+    vhash = attributes.get("vhash")
     suggested_threat_label = (
-        data["data"]["attributes"]
+        attributes
         .get("popular_threat_classification", {})
-        .get("suggested_threat_label", None)
+        .get("suggested_threat_label")
     )
-    file_size = data["data"]["attributes"]["size"]  # bytes
-    magic = data["data"]["attributes"]["magic"]
-    trid = data["data"]["attributes"]["trid"]
-    names = data["data"]["attributes"]["names"]
+    file_size = attributes.get("size", 0)  # bytes
+    magic = attributes.get("magic")
+    trid = attributes.get("trid")
+    names = attributes.get("names", [])
 
     return (
         is_malicious,
@@ -46,7 +48,7 @@ async def parse_virustotal_data(data: json) -> tuple:
     )
 
 
-async def parse_alien_vault_data(data: json) -> tuple:
+async def parse_alien_vault_data_hash(data: json) -> tuple:
     """
     Parses AlienVault data to extract related tags and pulse details.
 
@@ -56,7 +58,7 @@ async def parse_alien_vault_data(data: json) -> tuple:
     Returns:
         tuple: (tags_str, pulse_details, hash_type).
     """
-        
+
     hash_type = data["type_title"]
     # related tags
     tags = set()
@@ -103,9 +105,9 @@ async def create_hash_ioc(hash: str) -> HASH:
         magic,
         trid,
         names,
-    ) = await parse_virustotal_data(virustotal_json_data)
+    ) = await parse_virustotal_data_hash(virustotal_json_data)
     alienvault_data = await fetch_alien_vault_data(hash)
-    tags_str, pulse_details, hash_type = await parse_alien_vault_data(alienvault_data)
+    tags_str, pulse_details, hash_type = await parse_alien_vault_data_hash(alienvault_data)
 
     file_name_str = str(names)
     tr_ID_str = str(trid)
@@ -128,3 +130,5 @@ async def create_hash_ioc(hash: str) -> HASH:
         pulse_info=pulse_info_str,
     )
     return hash_ioc
+
+

@@ -1,6 +1,6 @@
-import httpx
 import json
 
+import httpx
 from dynaconf import Dynaconf
 
 settings = Dynaconf(settings_file="settings.toml")
@@ -16,7 +16,7 @@ async def fetch_abuseipdb_data(ip: str):
     Returns:
         json: JSON data obtained from AbuseIPDB.
     """
-   
+
     api_url = "https://api.abuseipdb.com/api/v2/check"
 
     params = {"ipAddress": ip, "maxAgeInDays": "90"}

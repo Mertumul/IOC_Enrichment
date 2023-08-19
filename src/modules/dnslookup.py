@@ -1,7 +1,7 @@
-import httpx
 import logging
-from dynaconf import Dynaconf
 
+import httpx
+from dynaconf import Dynaconf
 
 logging.basicConfig(level=logging.INFO)
 settings = Dynaconf(settings_file="settings.toml")

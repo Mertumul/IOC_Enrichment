@@ -1,13 +1,16 @@
-import httpx
-from scan.type_detector import detect_ioc_type
 import logging
+
+import httpx
 from dynaconf import Dynaconf
+
+from scan.type_detector import detect_ioc_type
+
 settings = Dynaconf(settings_file="settings.toml")
 logging.basicConfig(level=logging.INFO)
 apikey = settings.api_keys.virustotal
 
 
-async def fetch_virustotal_data(indicator:str) -> dict:
+async def fetch_virustotal_data(indicator: str) -> dict:
     """
     Fetches VirusTotal data for the given indicator (file hash, IP address, or domain) using the VirusTotal API.
 
@@ -17,7 +20,7 @@ async def fetch_virustotal_data(indicator:str) -> dict:
     Returns:
         dict: JSON data obtained from the VirusTotal API.
     """
-        
+
     match indicator_type := await detect_ioc_type(indicator):
         case "file_hash":
             url = f"https://www.virustotal.com/api/v3/files/{indicator}"

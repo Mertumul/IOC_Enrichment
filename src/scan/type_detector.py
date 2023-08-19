@@ -11,7 +11,7 @@ async def detect_ioc_type(input_str: str) -> str:
     Returns:
         str: Type of the IoC (ip, url, domain, file_hash, or unknown).
     """
-        
+
     # IP adresi regex
     ip_regex = r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"  # 255.255.255.255 max fix
 

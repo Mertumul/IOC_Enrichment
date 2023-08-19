@@ -1,8 +1,10 @@
 import logging
+
+from dynaconf import Dynaconf
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.models import Base, IP, DOMAIN, HASH, URL
-from dynaconf import Dynaconf
+
+from database.models import DOMAIN, HASH, IP, URL, Base
 
 logging.basicConfig(level=logging.INFO)
 

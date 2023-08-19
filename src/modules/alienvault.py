@@ -1,7 +1,8 @@
+import logging
 import httpx
 from dynaconf import Dynaconf
+
 from scan.type_detector import detect_ioc_type
-import logging
 
 logging.basicConfig(level=logging.INFO)
 settings = Dynaconf(settings_file="settings.toml")
@@ -48,3 +49,4 @@ async def fetch_alien_vault_data(indicator: str) -> dict:
         except httpx.RequestError as e:
             logging.error("API isteği basarisiz oldu: %s", e)
             return None
+

@@ -1,5 +1,6 @@
-import httpx
 import urllib.parse
+
+import httpx
 from dynaconf import Dynaconf
 
 settings = Dynaconf(settings_file="settings.toml")
@@ -16,7 +17,7 @@ async def fetch_ipqualityscore_data(url: str) -> dict:
     Returns:
         dict: JSON data obtained from the ipqualityscore API.
     """
-        
+
     url = f"https://www.ipqualityscore.com/api/json/url/{api_key}/{urllib.parse.quote_plus(url)}"
     additional_params = {"strictness": 0}  # Sabit strictness değeri
 

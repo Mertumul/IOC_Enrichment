@@ -77,6 +77,35 @@
                 <td>{{ ioc.malicious }}</td>
             </tr>
             <tr>
+                <th>VPN</th>
+                <td>{{ ioc.is_vpn }}</td>
+            </tr>
+            <tr>
+                <th>Remote Access</th>
+                <td>{{ ioc.can_remote_access }}</td>
+            </tr>
+            <tr>
+                <th>Opened Ports</th>
+                <td>{{ ioc.current_opened_port }}</td>
+            </tr>
+        
+            <tr>
+                <th>Remote Ports</th>
+                <td>{{ ioc.remote_port }}</td>
+            </tr>
+            <tr>
+                <th>IDS Result</th>
+                <td>{{ ioc.ids }}</td>
+            </tr>
+            <tr>
+                <th>Scanning Result</th>
+                <td>{{ ioc.scanning_record }}</td>
+            </tr>
+            <tr>
+                <th>IP Category</th>
+                <td>{{ ioc.ip_category }}</td>
+            </tr>
+            <tr>
                 <th>Related Tags</th>
                 <td>{{ ioc.related_tags }}</td>
             </tr>

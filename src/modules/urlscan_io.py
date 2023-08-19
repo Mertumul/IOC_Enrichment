@@ -1,6 +1,7 @@
-import httpx
 import asyncio
 import logging
+
+import httpx
 from dynaconf import Dynaconf
 
 settings = Dynaconf(settings_file="settings.toml")
@@ -54,9 +55,5 @@ async def fetch_urlscanio_data(url_to_scan: str):
             return None, None, None, None
 
         result_data = result_response.json()
-        ip_list = result_data.get("lists", {}).get("ips", [])
-        country = result_data.get("lists", {}).get("countries", [])
-        servers = result_data.get("lists", {}).get("servers", [])
-        urls = result_data.get("lists", {}).get("urls", [])
 
-        return ip_list, country, servers, urls
+        return result_data

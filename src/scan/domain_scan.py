@@ -1,13 +1,13 @@
 import json
+import logging
+
+from database.models import DOMAIN
+from modules.alienvault import fetch_alien_vault_data
+from modules.blacklistchecker import run_blacklist_check
+from modules.dnslookup import fetch_dns_lookup_data
+from modules.ip_api import fetch_ip_api_data
 from modules.virustotal import fetch_virustotal_data
 from modules.whois import fetch_whois_data
-from modules.ip_api import fetch_ip_api_data
-from modules.blacklistchecker import run_blacklist_check
-from modules.alienvault import fetch_alien_vault_data
-from modules.dnslookup import fetch_dns_lookup_data
-from database.models import DOMAIN
-
-import logging
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 # malicious_or_not
 async def parse_virustotal_data(data: dict) -> bool:
     """
-    Parses VirusTotal data to determine if the IP is marked as malicious.
+    Parses VirusTotal data to determine if an IP address is marked as malicious.
 
     Args:
         data (dict): JSON data obtained from the VirusTotal API.
@@ -25,14 +25,14 @@ async def parse_virustotal_data(data: dict) -> bool:
     """
 
     # Checking if the IP is marked as malicious
-    last_analysis_stats = data["attributes"].get("last_analysis_stats", {})
+    last_analysis_stats = data.get("attributes", {}).get("last_analysis_stats", {})
     is_malicious = last_analysis_stats.get("malicious", 0) > 0
 
-    return True if is_malicious else False
+    return is_malicious
 
 
 # country-city,geolocation,
-async def parse_geolocation_data(data: json) -> tuple:
+async def parse_geolocation_data_domain(data: json) -> tuple:
     """
     Parses geolocation data to extract IP information.
 
@@ -42,7 +42,7 @@ async def parse_geolocation_data(data: json) -> tuple:
     Returns:
         tuple: (IP address, country, city, latitude, longitude, ISP).
     """
-        
+
     try:
         ip = data.get("query", None)
         country = data.get("country", None)
@@ -66,7 +66,7 @@ async def parse_alien_vault_data(data: dict) -> str:
     Returns:
         str: Comma-separated list of related tags.
     """
-        
+
     tags = set()
     pulse_info = data.get("pulse_info", {})
     if "pulses" in pulse_info:
@@ -95,7 +95,7 @@ async def create_domain_ioc(domain: str) -> DOMAIN:
     alienvault_data = await fetch_alien_vault_data(domain)
     related_tags = await parse_alien_vault_data(alienvault_data)
     geolocation_data = await fetch_ip_api_data(domain)
-    ip, country, city, lat, lon, isp = await parse_geolocation_data(geolocation_data)
+    ip, country, city, lat, lon, isp = await parse_geolocation_data_domain(geolocation_data)
     country = country if country is not None else ""
     city = city if city is not None else ""
     country_city = country + "-" + city

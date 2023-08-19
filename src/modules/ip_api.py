@@ -1,5 +1,6 @@
-import httpx
 import logging
+
+import httpx
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,7 +16,7 @@ async def fetch_ip_api_data(query: str) -> dict:
     Returns:
         dict: JSON data obtained from the ip-api.com API.
     """
-        
+
     base_url = "http://ip-api.com/json/"
     url = base_url + query
 

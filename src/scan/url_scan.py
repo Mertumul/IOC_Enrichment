@@ -66,6 +66,16 @@ async def parse_ipquality_data(data: json) -> tuple:
 
     return suspicious, unsafe, risk_score, malware, spamming, phishing, adult
 
+async def parse_urlscanio_data(data: json) -> tuple:
+        
+    ip_list = data.get("lists", {}).get("ips", [])
+    country = data.get("lists", {}).get("countries", [])
+    servers = data.get("lists", {}).get("servers", [])
+    urls = data.get("lists", {}).get("urls", [])
+
+
+    return ip_list, country, servers, urls
+
 
 async def list_to_string(lst):
     if lst is None:
@@ -102,7 +112,8 @@ async def create_url_ioc(url: str) -> URL:
         phishing,
         adult,
     ) = await parse_ipquality_data(ipqualityscore_data)
-    ip_list, countries, servers, urls = await fetch_urlscanio_data(url)
+    urlscanio_data = await fetch_urlscanio_data(url)
+    ip_list, countries, servers, urls = await parse_urlscanio_data(urlscanio_data)
     pulse_info_str = str(pulse_details)
     ip_list = await list_to_string(ip_list)
     countries = await list_to_string(countries)

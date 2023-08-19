@@ -1,19 +1,11 @@
-from sqlalchemy.dialects.postgresql import insert
-from database.session import SessionLocal, logging, Base, IP, DOMAIN, HASH, URL
 from datetime import datetime
+
+from sqlalchemy.dialects.postgresql import insert
+
+from database.session import DOMAIN, HASH, IP, URL, Base, SessionLocal, logging
 
 
 async def insert_ip_ioc(ioc_data: IP) -> None:
-    """
-    Inserts an IP IOC (Indicator of Compromise) object into the database.
-
-    Args:
-        ioc_data (IP): An instance of the IP model containing the IOC data to be inserted.
-
-    Returns:
-        None
-    """
-        
     ioc_data.created_at = datetime.utcnow()  # Şu anki tarih ve zamanı ayarlayalım
     with SessionLocal() as db:
         try:
@@ -24,6 +16,13 @@ async def insert_ip_ioc(ioc_data: IP) -> None:
                     ioc_type=ioc_data.ioc_type,
                     blacklist=ioc_data.blacklist,
                     malicious=ioc_data.malicious,
+                    is_vpn = ioc_data.is_vpn,
+                    can_remote_access = ioc_data.can_remote_access,
+                    current_opened_port = ioc_data.current_opened_port,
+                    remote_port = ioc_data.remote_port,
+                    ids = ioc_data.ids,
+                    scanning_record = ioc_data.scanning_record,
+                    ip_category = ioc_data.ip_category,
                     related_tags=ioc_data.related_tags,
                     geometric_location=ioc_data.geometric_location,
                     country=ioc_data.country,
@@ -31,7 +30,6 @@ async def insert_ip_ioc(ioc_data: IP) -> None:
                     created_at=ioc_data.created_at,  # Tarih ve zamanı da ekleyelim
                     abuseipdb=ioc_data.abuseipdb,
                     greynoise=ioc_data.greynoise,
-
                     whois=ioc_data.whois,
                 )
                 .on_conflict_do_nothing(index_elements=["ioc"])
@@ -43,16 +41,6 @@ async def insert_ip_ioc(ioc_data: IP) -> None:
 
 
 async def insert_domain_ioc(ioc_data: DOMAIN) -> None:
-    """
-    Inserts a Domain IOC (Indicator of Compromise) object into the database.
-
-    Args:
-        ioc_data (DOMAIN): An instance of the DOMAIN model containing the IOC data to be inserted.
-
-    Returns:
-        None
-    """
-        
     ioc_data.created_at = datetime.utcnow()  # Şu anki tarih ve zamanı ayarlayalım
     with SessionLocal() as db:
         try:
@@ -81,16 +69,6 @@ async def insert_domain_ioc(ioc_data: DOMAIN) -> None:
 
 
 async def insert_hash_ioc(ioc_data: HASH) -> None:
-    """
-    Inserts a Hash IOC (Indicator of Compromise) object into the database.
-
-    Args:
-        ioc_data (HASH): An instance of the HASH model containing the IOC data to be inserted.
-
-    Returns:
-        None
-    """
-        
     ioc_data.created_at = datetime.utcnow()  # Şu anki tarih ve zamanı ayarlayalım
     with SessionLocal() as db:
         try:
@@ -122,16 +100,6 @@ async def insert_hash_ioc(ioc_data: HASH) -> None:
 
 
 async def insert_url_ioc(ioc_data: URL) -> None:
-    """
-    Inserts a URL IOC (Indicator of Compromise) object into the database.
-
-    Args:
-        ioc_data (URL): An instance of the URL model containing the IOC data to be inserted.
-
-    Returns:
-        None
-    """
-        
     ioc_data.created_at = datetime.utcnow()  # Şu anki tarih ve zamanı ayarlayalım
     with SessionLocal() as db:
         try:
@@ -164,64 +132,39 @@ async def insert_url_ioc(ioc_data: URL) -> None:
 
 
 # psql2 asenkron
-async def get_ip_ioc_from_db(ioc_value: str) -> IP:
-    """
-    Retrieves an IP IOC (Indicator of Compromise) object from the database.
-
-    Args:
-        ioc_value (str): The IOC value to retrieve.
-
-    Returns:
-        IP: An instance of the IP model containing the retrieved IOC data.
-    """
+async def get_ioc_from_db(ioc_value: str, ioc_type: str):
     with SessionLocal() as db:
-        ioc = db.query(IP).filter(IP.ioc == ioc_value).first()
-        return ioc
-
-
-async def get_domain_ioc_from_db(ioc_value: str) -> DOMAIN:
-    """
-    Retrieves a Domain IOC (Indicator of Compromise) object from the database.
-
-    Args:
-        ioc_value (str): The IOC value to retrieve.
-
-    Returns:
-        DOMAIN: An instance of the DOMAIN model containing the retrieved IOC data.
-    """
+        match ioc_type:
+            case "ip":
+                ioc = db.query(IP).filter(IP.ioc == ioc_value).first()
+            case "domain":
+                ioc = db.query(DOMAIN).filter(DOMAIN.ioc == ioc_value).first()
+            case "file_hash":
+                ioc = db.query(HASH).filter(HASH.ioc == ioc_value).first()
+            case "url":
+                ioc = db.query(URL).filter(URL.ioc == ioc_value).first()
+            case _:
+                logging.error("Unknown data type!!!")
+                return None
         
-    with SessionLocal() as db:
-        ioc = db.query(DOMAIN).filter(DOMAIN.ioc == ioc_value).first()
         return ioc
 
 
-async def get_hash_ioc_from_db(ioc_value: str) -> HASH:
-    """
-    Retrieves a Hash IOC (Indicator of Compromise) object from the database.
-
-    Args:
-        ioc_value (str): The IOC value to retrieve.
-
-    Returns:
-        HASH: An instance of the HASH model containing the retrieved IOC data.
-    """
-        
+async def delete_ioc(ioc_value: str, ioc_type: str) -> None:
     with SessionLocal() as db:
-        ioc = db.query(HASH).filter(HASH.ioc == ioc_value).first()
-        return ioc
+        ioc = None
+        match ioc_type:
+            case "ip":
+                ioc = db.query(IP).filter(IP.ioc == ioc_value).first()
+            case "domain":
+                ioc = db.query(DOMAIN).filter(DOMAIN.ioc == ioc_value).first()
+            case "file_hash":
+                ioc = db.query(HASH).filter(HASH.ioc == ioc_value).first()
+            case "url":
+                ioc = db.query(URL).filter(URL.ioc == ioc_value).first()
+            case _:
+                logging.error("Unknown data type!!!")
 
-
-async def get_url_ioc_from_db(ioc_value: str) -> URL:
-    """
-    Retrieves a URL IOC (Indicator of Compromise) object from the database.
-
-    Args:
-        ioc_value (str): The IOC value to retrieve.
-
-    Returns:
-        URL: An instance of the URL model containing the retrieved IOC data.
-    """
-        
-    with SessionLocal() as db:
-        ioc = db.query(URL).filter(URL.ioc == ioc_value).first()
-        return ioc
+        if ioc:
+            db.delete(ioc)
+            db.commit()

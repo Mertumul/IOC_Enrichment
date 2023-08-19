@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, UniqueConstraint, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
+from sqlalchemy import (Boolean, Column, DateTime, Integer, String,
+                        UniqueConstraint)
+from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 
@@ -12,6 +13,13 @@ class IP(Base):
     ioc = Column(String)
     ioc_type = Column(String)
     malicious = Column(Boolean)
+    is_vpn = Column(Boolean)
+    can_remote_access = Column(Boolean)
+    current_opened_port = Column(String)
+    remote_port = Column(String)
+    ids = Column(String)
+    scanning_record = Column(String)
+    ip_category = Column(String)
     related_tags = Column(String)
     blacklist = Column(Boolean)
     country = Column(String)

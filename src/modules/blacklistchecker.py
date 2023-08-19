@@ -1,6 +1,7 @@
+from typing import Optional
+
 import httpx
 from dynaconf import Dynaconf
-from typing import Optional
 
 settings = Dynaconf(settings_file="settings.toml")
 
@@ -19,7 +20,7 @@ async def run_blacklist_check(query: str) -> Optional[bool]:
     Returns:
         Optional[bool]: True if the query is blacklisted, False if not blacklisted, or None on error.
     """
-    
+
     url = f"{BASE_URL}{query}"
     async with httpx.AsyncClient(auth=(API_KEY, "")) as client:
         response = await client.get(url)

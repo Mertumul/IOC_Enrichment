@@ -1,7 +1,68 @@
-ip = 111.64.223.134
-domain = steeancommunity.ru
-hash = f5dc1259e5300b8d4711ca7bf51c6e9f
-url =  http://23.95.122.94/450/IB_iso.exe
 
-git-secret 
-unit-test
+git-secret
+
+Sınıflandırma ve Tehdit Seviyeleri: IOC'leri belirli sınıflandırmalara (örneğin, yüksek, orta, düşük tehlike) veya tehdit seviyelerine göre etiketleyin.
+Görselleştirme: Verileri görselleştirmek için grafikler, haritalar veya interaktif arayüzler oluşturarak IOC ilişkilerini ve tehdit durumunu daha iyi anlayın.
+
+Tahmin ve Öngörüler: Geçmiş tehdit verilerini kullanarak gelecekteki tehdit öngörüleri yapmaya çalışın. Bu, güvenlik stratejilerini geliştirmenizde yardımcı olabilir.
+
+Yapay Zeka
+
+137.184.35.63
+
+
+async def parse_alien_vault_data_hash(data: json) -> tuple:
+    """
+    Parses AlienVault data to extract related tags and pulse details.
+
+    Args:
+        data (dict): JSON data obtained from the AlienVault API.
+
+    Returns:
+        tuple: (tags_str, pulse_details, hash_type).
+    """
+
+    hash_type = data["type_title"]
+    # related tags
+    tags = set()
+    pulse_info = data.get("pulse_info", {})
+    if "pulses" in pulse_info:
+        for pulse in pulse_info["pulses"]:
+            pulse_tags = pulse.get("tags", [])
+            tags.update(tag.lower() for tag in pulse_tags)
+    tags_str = ", ".join(tags)
+
+    # pulse info
+    pulses = data["pulse_info"]["pulses"] if "pulse_info" in data else []
+    pulse_details = []
+    for pulse in pulses:
+        pulse_name = pulse.get("name", None)
+        pulse_description = pulse.get("description", None)
+        pulse_tags = pulse.get("tags", [])
+        pulse_details.append(
+            {"Name": pulse_name, "Description": pulse_description, "Tags": pulse_tags}
+        )
+
+    return tags_str, pulse_details, hash_type
+
+
+    We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: key A638B04D712A1110 marked as ultimately trusted
+gpg: directory '/home/mert/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/mert/.gnupg/openpgp-revocs.d/984188761E7C75FF47A7A975A638B04D712A1110.rev'
+public and secret key created and signed.
+
+pub   rsa3072 2023-08-13 [SC] [expires: 2025-08-12]
+      984188761E7C75FF47A7A975A638B04D712A1110
+uid                      Mert Umul <mertumul48@outlook.com>
+sub   rsa3072 2023-08-13 [E] [expires: 2025-08-12]
+
+
+Aa123456,

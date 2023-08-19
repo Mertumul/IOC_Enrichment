@@ -1,6 +1,7 @@
-import httpx
-import xml.etree.ElementTree as ET
 import logging
+import xml.etree.ElementTree as ET
+
+import httpx
 from dynaconf import Dynaconf
 
 logging.basicConfig(level=logging.INFO)
@@ -19,7 +20,7 @@ async def fetch_whois_data(domain_name: str) -> str:
     Returns:
         str: Textual WHOIS data obtained from the whoisxmlapi.
     """
-        
+
     base_url = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
     url = f"{base_url}?apiKey={api_key}&domainName={domain_name}"
 
