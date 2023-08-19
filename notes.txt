@@ -1,0 +1,7 @@
+ip = 111.64.223.134
+domain = steeancommunity.ru
+hash = f5dc1259e5300b8d4711ca7bf51c6e9f
+url =  http://23.95.122.94/450/IB_iso.exe
+
+git-secret 
+unit-test

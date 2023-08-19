@@ -60,14 +60,11 @@ async def search_endpoint(request: Request, q: str):
 
     match detected_type:
         case "ip":
-            # Veritabanında arama yapalım
             ioc_in_db = await get_ip_ioc_from_db(q)
 
             if ioc_in_db:
-                # Veritabanında bulunduysa veritabanındaki değeri kullanalım
                 ioc = ioc_in_db
             else:
-                # Veritabanında yoksa yeni bir IOC oluşturup veritabanına ekleyelim
                 ioc = await create_ioc(q)
                 await insert_ip_ioc(ioc)
 
@@ -77,14 +74,11 @@ async def search_endpoint(request: Request, q: str):
             )
 
         case "domain":
-            # Veritabanında arama yapalım
             ioc_in_db = await get_domain_ioc_from_db(q)
 
             if ioc_in_db:
-                # Veritabanında bulunduysa veritabanındaki değeri kullanalım
                 ioc = ioc_in_db
             else:
-                # Veritabanında yoksa yeni bir IOC oluşturup veritabanına ekleyelim
                 ioc = await create_domain_ioc(q)
                 await insert_domain_ioc(ioc)
 
@@ -94,14 +88,11 @@ async def search_endpoint(request: Request, q: str):
             )
 
         case "file_hash":
-            # Veritabanında arama yapalım
             ioc_in_db = await get_hash_ioc_from_db(q)
 
             if ioc_in_db:
-                # Veritabanında bulunduysa veritabanındaki değeri kullanalım
                 ioc = ioc_in_db
             else:
-                # Veritabanında yoksa yeni bir IOC oluşturup veritabanına ekleyelim
                 ioc = await create_hash_ioc(q)
                 await insert_hash_ioc(ioc)
 
@@ -110,14 +101,11 @@ async def search_endpoint(request: Request, q: str):
                 {"request": request, "ioc": ioc, "detected_type": detected_type},
             )
         case "url":
-            # Veritabanında arama yapalım
             ioc_in_db = await get_url_ioc_from_db(q)
 
             if ioc_in_db:
-                # Veritabanında bulunduysa veritabanındaki değeri kullanalım
                 ioc = ioc_in_db
             else:
-                # Veritabanında yoksa yeni bir IOC oluşturup veritabanına ekleyelim
                 ioc = await create_url_ioc(q)
                 await insert_url_ioc(ioc)
 
@@ -128,4 +116,4 @@ async def search_endpoint(request: Request, q: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
